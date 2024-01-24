@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Clock with Lines</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <style>
+    #clock {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 50px auto;
+      font-size: 24px;
+      border: 10px solid #333;
+      border-radius: 50%;
+      background-color: #222; /* Set the background color to black or gray */
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .center-point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #1cf862; /* Set the center dot color to white or luminous */
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); /* Added box shadow for a subtle effect */
+    }
+
+    .hour-line, .minute-line, .second-line {
+      position: absolute;
+      transform-origin: 50% 100%;
+      left: 50%;
+    }
+
+    .hour-line {
+      width: 6px;
+      height: 60px;
+      top: 50%;
+      margin-top: -60px;
+      background-color: #1cf862; /* Set the hour hand color to luminous */
+      border-radius: 3px;
+    }
+
+    .minute-line {
+      width: 4px;
+      height: 90px;
+      top: 50%;
+      margin-top: -90px;
+      background-color: #1cf862; /* Set the minute hand color to luminous */
+      /*background-color: linear-gradient(to right, #87CEFA, #DA70D6);*/
+      border-radius: 2px;
+    }
+
+    .second-line {
+      width: 2px;
+      height: 140px;
+      top: 50%;
+      margin-top: -140px;
+      background-color: #1cf862;
+      border-radius: 1px;
+    }
+
+    .marker {
+        position: absolute;
+        width: 4px;
+        height: 20px;
+        background-color: #1cf862; /* Set the marker color to luminous */
+        left: 50%;
+        transform: translateX(-50%) rotate(0deg); /* Adjust rotation angle for proper alignment */
+        transform-origin: 50% 100%;
+      }
+      
+      .marker:nth-child(2n) {
+        height: 10px; /* Make every alternate marker shorter for variety */
+        background-color: #fff; /* Set the color of alternate markers to white or luminous */
+      }
+      
+      
+      
+      
+
+    .clock_numberh {
+      position: absolute;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #1cf862; /* Set the clock number color to luminous */
+      
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .clock_numberm {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #1cf862; /* Set the clock number color to luminous */
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .clock_numbers {
+      position: absolute;
+      top: -13%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #1cf862; /* Set the clock number color to luminous */
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div id="clock">
+  <div class="center-point"></div>
+  <div class="hour-line" id="hourLine">
+    <div class="clock_numberh">00</div>
+  </div>
+  <div class="minute-line" id="minuteLine">
+    <div class="clock_numberm">00</div>
+  </div>
+  <div class="second-line" id="secondLine">
+    <div class="clock_numbers">00</div>
+  </div>
+
+  <!-- Adding markers around the clock circle -->
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+  <div class="marker"></div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+    
+        // Adjust hours to be in the range of 1 to 12 for 12-hour format
+        hours = hours % 12 || 12;
+    
+        // Calculate angles for hour, minute, and second hands
+        const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+        const minuteAngle = minutes * 6;
+        const secondAngle = seconds * 6;
+    
+        // Update only the topmost .clock_number for each hand
+        $("#hourLine .clock_numberh:first").html(hours);
+        $("#minuteLine .clock_numberm:first").html(minutes);
+        $("#secondLine .clock_numbers:first").html(seconds);
+    
+        // Rotate the lines based on the calculated angles
+        $("#hourLine").css("transform", `rotate(${hourAngle}deg)`);
+        $("#minuteLine").css("transform", `rotate(${minuteAngle}deg)`);
+        $("#secondLine").css("transform", `rotate(${secondAngle}deg)`);
+    }
+    
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+    
+    // Initial call to display the clock immediately
+    updateClock();
+</script>
+
+</body>
+</html>
